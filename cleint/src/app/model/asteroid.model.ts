@@ -6,10 +6,10 @@ export interface Asteroid {
     },
     element_count: number
     near_earth_objects: {
-        date: 
-            {
+        [asd: string]: 
+            [{
                 links: {
-                    self: string
+                    self: string 
                 },
                 id: string,
                 neo_reference_id: string,
@@ -55,7 +55,7 @@ export interface Asteroid {
                     }
                 ],
                 is_sentry_object: boolean
-            }
+            }]
         }
     
 }

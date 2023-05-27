@@ -7,7 +7,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'asteroids', pathMatch: 'full' },
   { path: 'asteroids', component: ListAsteroidsComponent },
   //{ path: 'asteroids/:id', component: A },
-  { path: 'add', component: AddAsteroidComponent }
+  //{ path: 'asteroids', component: AddAsteroidComponent }
 ];
 
 @NgModule({

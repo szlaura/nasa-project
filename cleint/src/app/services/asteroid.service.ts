@@ -12,7 +12,7 @@ export class AsteroidService {
 
   constructor(private http: HttpClient) { }
 
-  rootURL = 'https://api.nasa.gov/neo/rest/v1/feed?start_date=2023-05-24&end_date=2023-05-24&api_key=8x7SnxROCmJKcbOAt2XiQSWYnGaiQ8aLmYfawmT4';
+  rootURL = 'https://api.nasa.gov/neo/rest/v1/feed?start_date=2023-05-25&end_date=2023-05-25&api_key=8x7SnxROCmJKcbOAt2XiQSWYnGaiQ8aLmYfawmT4';
  
   task: any;
 
@@ -20,10 +20,18 @@ export class AsteroidService {
     return this.http.get<Asteroid>(this.rootURL);
   }
 
+  listAsteroids(): Observable<Asteroid[]>{
+    return this.http.get<Asteroid[]>(apiurl);
+  }
+
   createAsteroid(data: Asteroid): Observable<Asteroid> {
     console.log("meg lett hivva");
     console.log(data);
     return this.http.post<Asteroid>(apiurl, data)
+  }
+
+  get(id: any): Observable<any> {
+    return this.http.get<any>(`${apiurl}/${id}`);
   }
 
   /*addTask(task: any) {
