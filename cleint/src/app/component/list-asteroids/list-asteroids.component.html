@@ -1,11 +1,13 @@
 
-    <div class="card" *ngFor="let ast of asteroids.near_earth_objects['2023-05-25']">
+    <div class="card" *ngFor="let ast of asteroids.near_earth_objects[striingmertidk]">
   
       <div class="card-body">
         <h6>Name</h6>
         <p>{{ast.name}}</p>
         <h6>Magnitude</h6>
         <p>{{ast.absolute_magnitude_h}}</p>
+        <div *ngFor="let a of ast.close_approach_data">
+        <p>{{a.close_approach_date}}</p>
        
       </div>
   

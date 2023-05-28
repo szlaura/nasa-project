@@ -1,37 +1,48 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Asteroid } from '../model/asteroid.model';
 import { Observable, of } from 'rxjs';
+import { nasa_api} from 'src/environments/environment'
 
-const apiurl = 'http://localhost:3000/api/asteroids';
+const apnkiurl = 'http://localhost:3000/api/asteroids';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AsteroidService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    const todayDate = new Date();
+    this.yesterdayDate = new Date();
+    const todaysDayOfMonth = todayDate.getDate();
+    this.yesterdayDate.setDate(todaysDayOfMonth - 1);
+    this.stringYesterday = this.yesterdayDate.toISOString().split('T')[0];
+    this.rootURL = `${nasa_api(this.stringYesterday, this.stringYesterday)}`;
+    console.log(this.rootURL);
+   }
 
-  rootURL = 'https://api.nasa.gov/neo/rest/v1/feed?start_date=2023-05-25&end_date=2023-05-25&api_key=8x7SnxROCmJKcbOAt2XiQSWYnGaiQ8aLmYfawmT4';
- 
-  task: any;
+
+  yesterdayDate: any;
+  stringYesterday!: string;
+  rootURL!: string;
 
   getAsteroids(): Observable<Asteroid> {
     return this.http.get<Asteroid>(this.rootURL);
   }
 
   listAsteroids(): Observable<Asteroid[]>{
-    return this.http.get<Asteroid[]>(apiurl);
+    console.log("SZERVER INFO" + apnkiurl)
+    return this.http.get<Asteroid[]>(apnkiurl);
   }
 
   createAsteroid(data: Asteroid): Observable<Asteroid> {
     console.log("meg lett hivva");
     console.log(data);
-    return this.http.post<Asteroid>(apiurl, data)
+    return this.http.post<Asteroid>(apnkiurl, data)
   }
 
   get(id: any): Observable<any> {
-    return this.http.get<any>(`${apiurl}/${id}`);
+    return this.http.get<any>(`${apnkiurl}/${id}`);
   }
 
   /*addTask(task: any) {

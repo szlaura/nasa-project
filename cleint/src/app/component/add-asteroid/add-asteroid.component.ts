@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Asteroid } from 'src/app/model/asteroid.model';
 import { AsteroidService } from 'src/app/services/asteroid.service';
-
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-add-asteroid',
@@ -13,10 +13,14 @@ export class AddAsteroidComponent{
   constructor(private asteroidService: AsteroidService) { }
 
   ngOnInit(): void {
+    
    this.getAsterosids();
   }
 
   dataAst!: Asteroid;
+  currentDate=new Date();
+  value = formatDate(this.currentDate, 'yyyy-MM-dd', 'en-US');
+
 
   getAsterosids(): void {
     this.asteroidService.getAsteroids()

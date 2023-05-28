@@ -6,7 +6,7 @@ export interface Asteroid {
     },
     element_count: number
     near_earth_objects: {
-        [asd: string]: 
+        [key: string]: 
             [{
                 links: {
                     self: string 

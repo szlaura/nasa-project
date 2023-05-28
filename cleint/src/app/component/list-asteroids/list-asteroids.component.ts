@@ -15,7 +15,9 @@ export class ListAsteroidsComponent {
     this.listDailyAsteroids();
   }
 
+  striingmertidk =this.asteroidService.stringYesterday;
   asteroids!: Asteroid;
+  Object!: Asteroid;
 
 
   listDailyAsteroids(): void {

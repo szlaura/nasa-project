@@ -4,7 +4,8 @@ import { AddAsteroidComponent } from './component/add-asteroid/add-asteroid.comp
 import { ListAsteroidsComponent } from './component/list-asteroids/list-asteroids.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'asteroids', pathMatch: 'full' },
+  { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+  { path: 'welcome', component: AddAsteroidComponent },
   { path: 'asteroids', component: ListAsteroidsComponent },
   //{ path: 'asteroids/:id', component: A },
   //{ path: 'asteroids', component: AddAsteroidComponent }

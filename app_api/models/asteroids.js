@@ -67,9 +67,9 @@ const asteroidSchema = new mongoose.Schema({
         self: String
     },
     near_earth_objects: {
-        "2023-05-25": [detailsSchema]
+        [mongoose.Schema.Types.String]: [detailsSchema]
     }
-});
+}, { strict: false });
 
 
 
