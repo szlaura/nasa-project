@@ -1,4 +1,8 @@
 export interface Asteroid {
+    // comments?:[{
+    //     author: string,
+    //     commentText: string
+    // }],
     links: {
         next : string,
         previous: string,
@@ -8,6 +12,10 @@ export interface Asteroid {
     near_earth_objects: {
         [key: string]: 
             [{
+                comments?: [{
+                    author: string,
+                    commentText: string
+                }],
                 links: {
                     self: string 
                 },

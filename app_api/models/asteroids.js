@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
 
-const reviewSchema = new mongoose.Schema({
+const commentSchema = new mongoose.Schema({
     author: String,
-    rating: {type: Number, required: true, min: 0, max: 5},
-    reviewText: String,
-    createdOn: {type: Date, "default": Date.now }
+    commentText: String
+    //createdOn: {type: Date, "default": Date.now }
 });
 
 const detailsSchema = new mongoose.Schema({
+    comments: {type: [commentSchema], required: false},
     links: {
         self: String
     },
@@ -67,7 +67,7 @@ const asteroidSchema = new mongoose.Schema({
         self: String
     },
     near_earth_objects: {
-        [mongoose.Schema.Types.String]: [detailsSchema]
+        [mongoose.Schema.Types.String]: {type: [detailsSchema], alias: 'date1'}
     }
 }, { strict: false });
 

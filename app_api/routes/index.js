@@ -8,4 +8,12 @@ const ctrlAsteroids = require('../controllers/asteroids');
 router.get('/asteroids/', ctrlAsteroids.asteroidsReadAll);
 router.post('/asteroids', ctrlAsteroids.asteroidsCreate);
 
+router.get('/asteroids/:asteroidid', ctrlAsteroids.asteroidsReadOne);
+
+//Comments
+router.post('/asteroids/:asteroidid/comments', ctrlComments.commentCreate);
+
+router.put('/asteroids/:asteroidid/comments/:commentid', ctrlComments.commentsUpdateOne);
+router.delete('/asteroids/:asteroidid/comments/:commentid', ctrlComments.commentsDeleteOne);
+
 module.exports = router;

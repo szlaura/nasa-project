@@ -10,6 +10,7 @@ import { AddCommentComponent } from './component/add-comment/add-comment.compone
 import { DeleteCommentComponent } from './component/delete-comment/delete-comment.component';
 import { UpdateCommentComponent } from './component/update-comment/update-comment.component';
 import { FormsModule } from '@angular/forms';
+import { DetailsAsteroidComponent } from './component/details-asteroid/details-asteroid.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     ListAsteroidsComponent,
     AddCommentComponent,
     DeleteCommentComponent,
-    UpdateCommentComponent 
+    UpdateCommentComponent,
+    DetailsAsteroidComponent 
   ],
   imports: [
     BrowserModule,

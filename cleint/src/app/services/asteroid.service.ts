@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Asteroid } from '../model/asteroid.model';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { nasa_api} from 'src/environments/environment'
 
 const apnkiurl = 'http://localhost:3000/api/asteroids';
@@ -10,6 +10,8 @@ const apnkiurl = 'http://localhost:3000/api/asteroids';
   providedIn: 'root'
 })
 export class AsteroidService {
+
+  dataSource = new BehaviorSubject(null);
 
   constructor(private http: HttpClient) {
     const todayDate = new Date();
@@ -25,6 +27,10 @@ export class AsteroidService {
   yesterdayDate: any;
   stringYesterday!: string;
   rootURL!: string;
+  public idAmitAtkellvinni?: string
+
+  
+  // public data = this.dataSource.asObservable();
 
   getAsteroids(): Observable<Asteroid> {
     return this.http.get<Asteroid>(this.rootURL);
@@ -43,6 +49,11 @@ export class AsteroidService {
 
   get(id: any): Observable<any> {
     return this.http.get<any>(`${apnkiurl}/${id}`);
+  }
+
+  
+  updateData(value: any) {
+    return this.dataSource.next(value);
   }
 
   /*addTask(task: any) {

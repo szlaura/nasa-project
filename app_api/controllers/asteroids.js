@@ -31,8 +31,9 @@ const asteroidsCreate = (req, res) => {
 
 /* GET api/asteroids/asteroidid */
 const asteroidsReadOne = (req, res) => {
+  const { asteroidid } = req.param;
   Asteroids
-    .findById(req.params.locationid)
+    .findOne({asteroidid}, {})
     .exec((err, asteroid) => {
       if (!asteroid) {
         return res
