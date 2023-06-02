@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Ast = mongoose.model('Asteroids');
+const Comments = mongoose.model('Comments');
 
 const sendJSONresponse = (res, status, content) => {
     res.status(status);
@@ -7,117 +7,77 @@ const sendJSONresponse = (res, status, content) => {
   };
 
 
-/* POST a new comment, providing an asteroid */
-/* /api/asteroids/:asteroidid/comments */
-const commentCreate = (req, res) => {
-  const asteroidid = req.params.asteroidid;
-  if (asteroidid) {
-    Ast
-      .findById(asteroidid)
-      .select('comments')
-      .exec((err, asteroid) => {
+/* GET api/comments/:asteroidid */
+const commentReadAll = (req, res) => {
+  Comments
+    .find({})
+    .where('asteroidId').equals(req.params.asteroidid)
+    .exec((err, comments) => {
+        if (!comments) {
+          sendJSONresponse(res, 404, {"message" : "comments not found"});
+        } else if (err) { sendJSONresponse(res, 404, err);  }
+        else { 
+          sendJSONresponse(res, 200, comments);
+        }
+  });     
+};
+
+/* POST api/comments */
+const commentsCreate = (req, res) => {
+  Comments.create(req.body,   
+   (err, comments) => {
+          if (err) { sendJSONresponse(res, 404, err); } else 
+                  { sendJSONresponse(res, 201, comments); } 
+    });
+};
+
+/* PUT api/comments/:commentid */
+const commentsUpdateOne = (req, res) => {
+  if (!req.params.commentid) {
+    sendJSONresponse(res, 406, {"message": "Not found, commentid is required"});
+  }
+  Comments
+    .findByIdAndUpdate(req.params.commentid)
+    .exec((err, comment) => {
+          if (!comment) {
+              sendJSONresponse(res, 500, {"message": "commentid not found"});
+            } else if (err) {
+                sendJSONresponse(res, 400, err);
+              }
+        comment.author = req.body.author;
+        comment.commentText = req.body.commentText;
+        comment.save((err, comment) => {
           if (err) {
-            sendJSONresponse(res, 400, err);
+            sendJSONresponse(res, 403, err);
           } else {
-            doAddComment(req, res, asteroid);
+            sendJSONresponse(res, 200, comment);
           }
+        });
+      }); 
+};
+
+/* DELETE /api/comments/:commentid */
+const commentsDeleteOne = (req, res) => {
+  const commentid = req.params.commentid;
+  if (commentid) {
+    Comments
+      .findByIdAndDelete(req.params.commentid)
+      .exec((err) => {
+          if (err) {
+            sendJSONresponse(res, 404, err);
+          }
+          console.log("Comment id " + commentid + " deleted");
+          sendJSONresponse(res, 204, null);
         }
     );
   } else {
-    sendJSONresponse(res, 404, {"message": "Asteroid not found"});
+    sendJSONresponse(res, 404, {"message": "No commentid"});
   }
-};
-
-const doAddComment = (req, res, asteroid) => {
-  if (!asteroid) {
-    sendJSONresponse(res, 404, {"message" : "Asteroid not found"});
-  } else {
-    asteroid.comments.push({
-      author: req.body.author,
-      text: req.body.commentText
-    });
-    asteroid.save((err, asteroid) => {
-      if (err) {
-        sendJSONresponse(res, 400, err);
-      } else {
-        let thisComment = asteroid.comments[asteroid.comments.length - 1];
-        sendJSONresponse(res, 201, thisComment);
-      }
-    });
-  }
-};
-
-/* PUT /api/asteroid/:asteroidid/comments/:commentid */
-const commentsUpdateOne = (req, res) => {
-  if (!req.params.asteroidid || !req.params.commentid) {
-    sendJSONresponse(res, 404, {"message": "Not found, asteroidid and commentid are both required"});
-  }
-  Ast
-    .findById(req.params.asteroidid)
-    .select('comments')
-    .exec((err, asteroid) => {
-        if (!asteroid) {
-          sendJSONresponse(res, 404, {"message": "asteroid not found"});
-        } else if (err) {
-          sendJSONresponse(res, 400, err);
-        }
-        if (asteroid.comments && asteroid.comments.length > 0) {
-          thisComment = asteroid.comments.id(req.params.commentid);
-          if (!thisComment) {
-            sendJSONresponse(res, 404, {"message": "commentid not found"});
-          } else {
-            thisComment.author = req.body.author;
-            thisComment.commentText = req.body.commentText;
-            asteroid.save((err, asteroid) => {
-              if (err) {
-                sendJSONresponse(res, 404, err);
-              } else {
-                sendJSONresponse(res, 200, thisComment);
-              }
-            });
-          }
-        } else {
-          sendJSONresponse(res, 404, {"message": "No comment to update"});
-        }
-      });
-};
-
-/* DELETE /api/asteroids/:asteroidid/comments/:commentid */
-const commentsDeleteOne = (req, res) => {
-  if (!req.params.asteroidid || !req.params.commentid) {
-    sendJSONresponse(res, 404, {"message": "Not found, asteroidid and commentid are both required"});
-  }
-  Ast
-    .findById(req.params.asteroidid)
-    .select('comments')
-    .exec((err, asteroid) => {
-        if (!asteroid) {
-          sendJSONresponse(res, 404, {"message": "asteroidid not found"});
-        } else if (err) {
-          sendJSONresponse(res, 400, err);
-        }
-        if (asteroid.comments && asteroid.comments.length > 0) {
-          if (!asteroid.comments.id(req.params.commentis)) {
-            sendJSONresponse(res, 404, {"message": "commentid not found"});
-          } else {
-            asteroid.comments.id(req.params.commentid).remove();
-            asteroid.save((err) => {
-              if (err) {
-                sendJSONresponse(res, 404, err);
-              } else {
-                sendJSONresponse(res, 204, null);
-              }
-            });
-          }
-        } else {
-          sendJSONresponse(res, 404, {"message": "No comment to delete"});
-        }
-      }
-  );
 };
 
 module.exports = {
-  commentCreate,
+  commentReadAll,
+  commentsCreate,
   commentsUpdateOne,
-  commentsDeleteOne 
+  commentsDeleteOne
 };

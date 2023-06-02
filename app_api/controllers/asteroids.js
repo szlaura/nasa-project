@@ -29,27 +29,54 @@ const asteroidsCreate = (req, res) => {
     });
 };
 
-/* GET api/asteroids/asteroidid */
+/* GET api/asteroids/:dailyastid/asteroidobject/:asteroidid/ */
 const asteroidsReadOne = (req, res) => {
-  const { asteroidid } = req.param;
   Asteroids
-    .findOne({asteroidid}, {})
-    .exec((err, asteroid) => {
+  .findById(req.params.dailyastid)
+  //.find(mongoose.ObjectId(req.params.dailyastid).toSring())
+  // .select('name date1')
+  .exec((err, asteroid) => {
       if (!asteroid) {
-        return res
-          .status(404)
-          .json({
-            "message": "asteroid not found" });
-          } else if (err) {
-            return res
-                .status(404)
-                .json(err);
-          }
-      res
-        .status(200)
-        .json(asteroid);
+        sendJSONresponse(res, 405, {"message": "asteroidid not found"});
+      } else if (err) {
+        sendJSONresponse(res, 400, err);
+      }
+      // if (asteroid.date1 && asteroid.date1.length > 0) {
+      //   const ast = asteroid.date1.id(req.params.asteroidid);
+      //   if (!ast) {
+      //     sendJSONresponse(res, 404, {"message": "asteroidid not found"});
+      //   } else {
+          // response = {
+          //   asteroid: {
+          //     element_count: asteroid.element_count,
+          //   }
+          // };
+          sendJSONresponse(res, 200, asteroid);
+       // }
+      //} else {
+       // sendJSONresponse(res, 404, {"message": "No reviews found"});
+     // }
     });
-  };
+};
+  // const { asteroidid } = req.param;
+  // Asteroids
+  //   .findOne({asteroidid}, {})
+  //   .exec((err, asteroid) => {
+  //     if (!asteroid) {
+  //       return res
+  //         .status(404)
+  //         .json({
+  //           "message": "asteroid not found" });
+  //         } else if (err) {
+  //           return res
+  //               .status(404)
+  //               .json(err);
+  //         }
+  //     res
+  //       .status(200)
+  //       .json(asteroid);
+  //   });
+  // };
 
 
 module.exports = {

@@ -1,14 +1,6 @@
 const mongoose = require('mongoose');
 
-
-const commentSchema = new mongoose.Schema({
-    author: String,
-    commentText: String
-    //createdOn: {type: Date, "default": Date.now }
-});
-
 const detailsSchema = new mongoose.Schema({
-    comments: {type: [commentSchema], required: false},
     links: {
         self: String
     },
@@ -71,10 +63,5 @@ const asteroidSchema = new mongoose.Schema({
     }
 }, { strict: false });
 
-
-
-
-
-//locationSchema.index({coords: '2dsphere'})
 
 mongoose.model('Asteroids', asteroidSchema);
