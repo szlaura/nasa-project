@@ -14,6 +14,6 @@ router.get('asteroids/:dailyastid/asteroidobject/:asteroidid', ctrlAsteroids.ast
 router.get('/comments/:asteroidid', ctrlComments.commentReadAll);
 router.post('/comments', ctrlComments.commentsCreate);
 
-router.put('/asteroids/comments/:commentid', ctrlComments.commentsUpdateOne);
-router.delete('/asteroids/comments/:commentid', ctrlComments.commentsDeleteOne);
+router.put('/comments/:commentid', ctrlComments.commentsUpdateOne);
+router.delete('/comments/:commentid', ctrlComments.commentsDeleteOne);
 module.exports = router;

@@ -28,14 +28,19 @@
                 <form>
                   <div class="form-group">
                     <label for="formGroupExampleInput">Name</label>
-                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+                    <input type="text" class="form-control" id="author" required [(ngModel)]="comment.author" name="author">
                   </div>
                   <div class="form-group">
                     <label for="formGroupExampleInput2">Comment</label>
-                    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+                    <input type="text" class="form-control" id="commentText" placeholder="Comment text" required [(ngModel)]="comment.commentText" name="commentText">
                   </div>
-                  <button></button>
+                  <br>
+                  <button class="btn btn-primary" type="submit" (click)="createComment()">Send</button>
                 </form>
+
+                <div *ngIf="submitted" >
+                  <h4>Tutorial was submitted successfully!</h4>
+                </div>
               </div>
               <!-- <table class="table table-borderless">
                 <tbody>
@@ -73,6 +78,35 @@
 
               </table> -->
             </div>
+            <div class="col-sm-5 col-md-6 col-12 pb-4">
+              <h3>Comments</h3>
+              <div class="comment mt-4 text-justify float-left" *ngFor="let com of receivedData">
+                  <h6> {{com.author}}</h6>
+                  <br>
+                  <p>{{com._id}}</p>
+                  <p>{{com.commentText}}</p>
+                  <button (click)="clickEditButton()">update</button>
+                  <button (click)="deleteComment(com._id)">delete</button>
+                  <div *ngIf="submitted" >
+                    <form>
+                      <div class="form-group">
+                        <label for="formGroupExampleInput">Name</label>
+                        <input type="text" class="form-control" id="authorEdit" 
+                        [(ngModel)]="author" name="author">
+                      </div>
+                      <div class="form-group">
+                        <label for="formGroupExampleInput2">Comment</label>
+                        <input type="text" class="form-control" id="commentTextEdit" 
+                        placeholder="Comment text" [(ngModel)]="text"
+                        name="commentText">
+                      </div>
+                      <br>
+                      <button class="btn btn-primary" type="submit" (click)="updateComment(com._id)">Send</button>
+                    </form>
+                  </div>
+              </div> 
+           
+          </div>
           </div> 
     
          

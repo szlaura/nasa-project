@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Asteroid } from 'src/app/model/asteroid.model';
 import { AsteroidService } from 'src/app/services/asteroid.service';
-import { ListAsteroidsComponent } from '../list-asteroids/list-asteroids.component';
+import { CommentService } from 'src/app/services/comment.service';
+import { Comment } from 'src/app/model/comment.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-details-asteroid',
@@ -12,12 +14,10 @@ import { ListAsteroidsComponent } from '../list-asteroids/list-asteroids.compone
 export class DetailsAsteroidComponent {
 
   dataAsteroid: any;
+  
 
-  constructor(private asteroidService: AsteroidService ) {
-    // setTimeout(()=>{  this.asteroidService.dataSource.subscribe((data: any) => {
-    //   this.dataAsteroid = data;
-    // });}, 3000);});
-
+  constructor(private asteroidService: AsteroidService, private commentService: CommentService,  private router: Router ) {
+ 
     setTimeout(()=>{       
       this.asteroidService.dataSource.subscribe((data: any) => {
         this.dataAsteroid = data;
@@ -32,6 +32,7 @@ export class DetailsAsteroidComponent {
     // this.listDailyAsteroids();
     // console.log("miafene ertek"+this.miafene);
     //this.asteroidID = this.asteroidService.idAmitAtkellvinni;
+    this.getCommentsByAsteroid('111111');
    
   }
 
@@ -41,6 +42,17 @@ export class DetailsAsteroidComponent {
   asteroidID?: string;
   miafene!: string;
   ertek!: string;
+  comment: Comment = {
+    author:'', 
+    commentText: '',
+    asteroidId: ''
+  };
+  submitted = false;
+  receivedData: any;
+
+
+  text: any;
+  author: any
 
 
   listDailyAsteroids(): void {
@@ -62,5 +74,65 @@ export class DetailsAsteroidComponent {
     window.alert('The message is ' + this.dataAsteroid);
   }
 
+
+  createComment(): void {
+    const data = {
+      author: this.comment.author,
+      commentText: this.comment.commentText,
+      asteroidId: '111111'
+    };
+
+    this.commentService.createComment(data)
+      .subscribe({
+        next: (res) => {
+          console.log("most mentem a commentet"+res);
+          this.submitted = true;
+        },
+        error: (e) => console.error(e)
+      });
+      this.comment = {
+        author:'', 
+        commentText: '',
+        asteroidId: ''
+      }
+  }
+
+  getCommentsByAsteroid(asteroidid: string): void {
+    this.commentService.getComments(asteroidid)
+      .subscribe({
+        next: (data) => {
+        this.receivedData = data;
+        },
+        error: (e) => console.error(e)
+      });
+  }
+
+  clickEditButton() {
+    this.submitted = true;
+  }
+
+  updateComment(id: string){
+    const data = {
+      author: this.author,
+      commentText: this.text
+    };
+    console.log("AZ ADATOK UPDATEHEZ"+data.author+ " "+data.commentText);
+    this.commentService.updateComment(id, data).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (e) => console.error(e)
+    });
+    window.location.reload();
+  }
+
+  deleteComment(id: string){
+    this.commentService.deleteComment(id).subscribe({
+      next: () => {
+        console.log("torolve lett");
+      },
+      error: (e) => console.error(e)
+    });;
+  }
 
 }
