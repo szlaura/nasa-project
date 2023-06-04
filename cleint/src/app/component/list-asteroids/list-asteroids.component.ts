@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Asteroid } from 'src/app/model/asteroid.model';
 import { AsteroidService } from 'src/app/services/asteroid.service';
 
@@ -6,9 +6,8 @@ import { AsteroidService } from 'src/app/services/asteroid.service';
   selector: 'app-list-asteroids',
   templateUrl: './list-asteroids.component.html',
   styleUrls: ['./list-asteroids.component.scss'],  
-  //providers: [AsteroidService]
 })
-export class ListAsteroidsComponent {
+export class ListAsteroidsComponent implements OnInit{
 
   constructor(private asteroidService: AsteroidService) { }
 
@@ -20,6 +19,8 @@ export class ListAsteroidsComponent {
   asteroids!: Asteroid;
   Object!: Asteroid;
   public asteroidID!: string;
+  dataAsteroid: any;
+  dataDailyAsteroids: any;
 
   listDailyAsteroids(): void {
     this.asteroidService.listAsteroids()
@@ -30,17 +31,18 @@ export class ListAsteroidsComponent {
           //this.res.element_count = this.asteroids?.element_count;
           console.log(this.asteroids);
           console.log(keys)
+
+          this.dataDailyAsteroids = this.asteroids._id;
+          console.log("dailyasteroids" + this.dataDailyAsteroids);
+          this.asteroidService.setDataDailyAsteroidsId(this.dataDailyAsteroids);
         },
         error: (e) => console.error(e)
       });
   }
 
-  public clickItem(item: any): string {
-    //console.log("TESSST: "+item.attributes['astid'].value);
-    let valamilegyen= item.attributes['astid'].value;
-    let vmi = this.asteroidService.updateData(valamilegyen);
-    console.log("LISTBEN "+  vmi);
-    return item.attributes['astid'].value;
+  public clickItem(item: any) {
+    this.dataAsteroid=item.attributes['astid'].value;
+    this.asteroidService.setDataAsteroidId(this.dataAsteroid);
   }
 
   

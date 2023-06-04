@@ -3,6 +3,7 @@ export interface Asteroid {
     //     author: string,
     //     commentText: string
     // }],
+    _id?: string,
     links: {
         next : string,
         previous: string,

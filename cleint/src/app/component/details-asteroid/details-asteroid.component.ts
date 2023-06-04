@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Asteroid } from 'src/app/model/asteroid.model';
 import { AsteroidService } from 'src/app/services/asteroid.service';
 import { CommentService } from 'src/app/services/comment.service';
@@ -8,40 +8,34 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-details-asteroid',
   templateUrl: './details-asteroid.component.html',
-  styleUrls: ['./details-asteroid.component.scss'],
-  providers: [AsteroidService]
+  styleUrls: ['./details-asteroid.component.scss']
 })
-export class DetailsAsteroidComponent {
+export class DetailsAsteroidComponent implements OnInit{
 
-  dataAsteroid: any;
-  
+  /*asteroid data*/
+  currentDailyAsteroidsId: any;
+  currentAsteroidId: any;
 
-  constructor(private asteroidService: AsteroidService, private commentService: CommentService,  private router: Router ) {
- 
-    setTimeout(()=>{       
-      this.asteroidService.dataSource.subscribe((data: any) => {
-        this.dataAsteroid = data;
-      });
-    }, 3000);
-   
-    console.log("HATHA "+this.dataAsteroid);
-
-  }
+  constructor(private asteroidService: AsteroidService, private commentService: CommentService,  private router: Router ) {}
 
   ngOnInit(): void {
-    // this.listDailyAsteroids();
-    // console.log("miafene ertek"+this.miafene);
-    //this.asteroidID = this.asteroidService.idAmitAtkellvinni;
-    this.getCommentsByAsteroid('111111');
-   
+    this.asteroidService.currentDataDailyAsteroids.subscribe(data => {
+      this.currentDailyAsteroidsId = data;
+      console.log("currentastid DAILY"+ this.currentDailyAsteroidsId);
+    })
+
+    this.asteroidService.currentDataAsteroid.subscribe(data => {
+      
+     this.currentAsteroidId = data;
+     console.log("currentastid"+ this.currentAsteroidId);
+    })
+
+    this.listDailyAsteroids(this.currentDailyAsteroidsId);
+    this.getCommentsByAsteroid(this.currentAsteroidId);
   }
 
   striingmertidk = this.asteroidService.stringYesterday;
   asteroids!: Asteroid;
-  Object!: Asteroid;
-  asteroidID?: string;
-  miafene!: string;
-  ertek!: string;
   comment: Comment = {
     author:'', 
     commentText: '',
@@ -50,43 +44,39 @@ export class DetailsAsteroidComponent {
   submitted = false;
   receivedData: any;
 
-
+  /*comment*/
   text: any;
   author: any
 
-
-  listDailyAsteroids(): void {
-    this.asteroidService.listAsteroids()
+  listDailyAsteroids(id: any): void {
+    this.asteroidService.getDailyAsteroidsById(id)
       .subscribe({
         next: (data) => {
-          this.asteroids = data.pop()!;
-          const keys = Object.keys(this.asteroids.near_earth_objects);
-          //this.res.element_count = this.asteroids?.element_count;
-          console.log(this.asteroids);
-          console.log(keys)
+          this.asteroids = data;
+         
+          console.log("mai asztaroidak "+this.asteroids.element_count);
         },
         error: (e) => console.error(e)
       });
   }
 
 
-  onOpenAlert() {
-    window.alert('The message is ' + this.dataAsteroid);
-  }
+  // onOpenAlert() {
+  //   window.alert('The message is ' + this.dataAsteroid);
+  // }
 
 
   createComment(): void {
     const data = {
       author: this.comment.author,
       commentText: this.comment.commentText,
-      asteroidId: '111111'
+      asteroidId: this.currentAsteroidId
     };
 
     this.commentService.createComment(data)
       .subscribe({
         next: (res) => {
           console.log("most mentem a commentet"+res);
-          this.submitted = true;
         },
         error: (e) => console.error(e)
       });
@@ -133,6 +123,15 @@ export class DetailsAsteroidComponent {
       },
       error: (e) => console.error(e)
     });;
+  }
+
+  cancelComment(){
+    this.comment = {
+      author:'', 
+      commentText: '',
+      asteroidId: ''
+    }
+    this.submitted = false;
   }
 
 }

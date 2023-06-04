@@ -1,3 +1,4 @@
+const { response } = require('express');
 const mongoose = require('mongoose');
 const Asteroids = mongoose.model('Asteroids');
 
@@ -20,6 +21,20 @@ const asteroidsReadAll = (req, res) => {
   });     
 };
 
+/* GET api/asteroids/:asteroidid */
+const asteroidsReadOneById = (req, res) => {
+  Asteroids
+    .findById(req.params.asteroidid)
+    .exec((err, asteroid) => {
+        if (!asteroid) {
+          return res.status(404).json({"message": "asteroid not found" });
+          } else if (err) {
+            return res.status(404).json(err);
+          }
+      res.status(200).json(asteroid);
+    });
+  };
+
 /* POST api/asteroids */
 const asteroidsCreate = (req, res) => {
   Asteroids.create(req.body,   
@@ -32,32 +47,35 @@ const asteroidsCreate = (req, res) => {
 /* GET api/asteroids/:dailyastid/asteroidobject/:asteroidid/ */
 const asteroidsReadOne = (req, res) => {
   Asteroids
-  .findById(req.params.dailyastid)
-  //.find(mongoose.ObjectId(req.params.dailyastid).toSring())
-  // .select('name date1')
+  .find(
+    {"links": {
+          
+               $elemMatch: {"next": "http://api.nasa.gov/neo/rest/v1/feed?start_date=2023-05-27&end_date=2023-05-27&detailed=false&api_key=8x7SnxROCmJKcbOAt2XiQSWYnGaiQ8aLmYfawmT4"}
+          
+  }})
+  //.where('_id').equals(req.params.dailyastid)
+ // .where("asteroid.near_earth_objects['2023-05-30'].id").equals('2001862')
+  //.select( { date: {$elemMatch: {id: req.params.asteroidid}}})
   .exec((err, asteroid) => {
-      if (!asteroid) {
-        sendJSONresponse(res, 405, {"message": "asteroidid not found"});
-      } else if (err) {
-        sendJSONresponse(res, 400, err);
-      }
-      // if (asteroid.date1 && asteroid.date1.length > 0) {
-      //   const ast = asteroid.date1.id(req.params.asteroidid);
-      //   if (!ast) {
-      //     sendJSONresponse(res, 404, {"message": "asteroidid not found"});
-      //   } else {
-          // response = {
-          //   asteroid: {
-          //     element_count: asteroid.element_count,
-          //   }
-          // };
+      if (asteroid) {
+      //   sendJSONresponse(res, 404, {"message": "asteroidid not found"});
+      // } else if (err) {
+      //   sendJSONresponse(res, 400, err);
+      // }
+      //  if (asteroid.length > 0) {
+      //   const comment = asteroid.near_earth_objects.date1.id(req.params.asteroidid);
+      //   if (!comment) {
+      //     sendJSONresponse(res, 404, {"message": "reviewid not found"});
+        // } else {
+        
+        
           sendJSONresponse(res, 200, asteroid);
-       // }
-      //} else {
-       // sendJSONresponse(res, 404, {"message": "No reviews found"});
-     // }
+      //  }
+      } else {
+        sendJSONresponse(res, 404, {"message": "No ast found"});
+       }
     });
-};
+}
   // const { asteroidid } = req.param;
   // Asteroids
   //   .findOne({asteroidid}, {})
@@ -82,5 +100,6 @@ const asteroidsReadOne = (req, res) => {
 module.exports = {
   asteroidsReadAll,
   asteroidsCreate,
-  asteroidsReadOne
+  asteroidsReadOne,
+  asteroidsReadOneById
 };

@@ -11,9 +11,14 @@ const apnkiurl = 'http://localhost:3000/api/asteroids';
 })
 export class AsteroidService {
 
-  dataSource = new BehaviorSubject(null);
+  private dataAsteroid = new BehaviorSubject<string>("MEGINT")
+  currentDataAsteroid = this.dataAsteroid.asObservable();
+
+  private dataDailyAsteroids = new BehaviorSubject<string>("LOL")
+  currentDataDailyAsteroids = this.dataDailyAsteroids.asObservable();
 
   constructor(private http: HttpClient) {
+    /*TODO kitenni fuggvenybe*/
     const todayDate = new Date();
     this.yesterdayDate = new Date();
     const todaysDayOfMonth = todayDate.getDate();
@@ -27,10 +32,7 @@ export class AsteroidService {
   yesterdayDate: any;
   stringYesterday!: string;
   rootURL!: string;
-  public idAmitAtkellvinni?: string
 
-  
-  // public data = this.dataSource.asObservable();
 
   getAsteroids(): Observable<Asteroid> {
     return this.http.get<Asteroid>(this.rootURL);
@@ -47,26 +49,18 @@ export class AsteroidService {
     return this.http.post<Asteroid>(apnkiurl, data)
   }
 
-  get(id: any): Observable<any> {
+  getDailyAsteroidsById(id: any): Observable<any> {
     return this.http.get<any>(`${apnkiurl}/${id}`);
   }
 
   
-  updateData(value: any) {
-    return this.dataSource.next(value);
+  setDataAsteroidId(value: any) {
+    console.log("value" +value);
+    this.dataAsteroid.next(value);
   }
 
-  /*addTask(task: any) {
-    return this.http.post(this.rootURL + '/task', {task});
+  setDataDailyAsteroidsId(value: any){
+    this.dataDailyAsteroids.next(value);
   }
-
-  editTask(task: any) {
-    return this.http.put(this.rootURL + '/task', {task});
-  }
-
-  deleteTask(taskId: any) {
-    console.log('deleting task:::', taskId);
-    return this.http.delete(`${this.rootURL}/task/${taskId}`);
-  }*/
 
 }

@@ -1,116 +1,188 @@
 <div class="container-fluid">
-
     <div class="container">
-      <!-- Title -->
-      <div class="d-flex justify-content-between align-items-center py-3">
-        <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Order #16123222</h2>
-      </div>
-
       <!-- Main content -->
-      <div class="row">
         <div class="col-lg-8">
           <!-- Details -->
-          <div class="card mb-4">
+          <div class="card">
             <div class="card-body">
-              <div class="mb-3 d-flex justify-content-between">
-                <button type="button" class="btn btn-outline-dark" [routerLink]="['/asteroids']">Back</button>
-                <div>
-                  <span class="me-1">#16123222</span>
-                </div>
-                <div class="d-flex">
-                  <button class="btn btn-link p-0 me-3 d-none d-lg-block btn-icon-text"><i class="bi bi-download"></i> <span class="text">Invoice</span></button>
-                  <div class="dropdown">
-                    <button class="btn btn-link p-0 text-muted" type="button" data-bs-toggle="dropdown">
-                      <i class="bi bi-three-dots-vertical"></i>
-                    </button>
+              <button type="button" class="btn btn-outline-dark" [routerLink]="['/asteroids']">Back</button>
+              <br>
+              <br>
+              <div>
+                <div *ngFor="let ast of asteroids.near_earth_objects[striingmertidk]" >
+                  <div *ngIf="ast.id == currentAsteroidId">
+                    <table class="table table-sm" >
+                      <thead>
+                        <tr>
+                          <th scope="col"><h3>{{ast.name}}</h3></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Neo reference id</td>
+                          <td>{{ast.neo_reference_id}}</td>
+                        </tr>
+                        <tr>
+                          <td>Nasa url</td>
+                          <td>{{ast.nasa_jpl_url}}</td>
+                        </tr>
+                        <tr>
+                          <td>Is potentially hazardous asteroid</td>
+                          <td>{{ast.is_potentially_hazardous_asteroid}}</td>
+                        </tr>
+                        <tr>
+                          <td>Absolute magnitude-h</td>
+                          <td>{{ast.absolute_magnitude_h}}</td>
+                        </tr>
+                        <tr>
+                          <td>Kilometers max</td>
+                          <td>{{ast.estimated_diameter.kilometers.estimated_diameter_max}}</td>
+                        </tr>
+                        <tr>
+                          <td>Kilometers min</td>
+                          <td>{{ast.estimated_diameter.kilometers.estimated_diameter_min}}</td>
+                        </tr>
+                        <tr>
+                          <td>Meters max</td>
+                          <td>{{ast.estimated_diameter.meters.estimated_diameter_max}}</td>
+                        </tr>
+                        <tr>
+                          <td>Meters min</td>
+                          <td>{{ast.estimated_diameter.meters.estimated_diameter_min}}</td>
+                        </tr>
+                        <tr>
+                          <td>Miles max</td>
+                          <td>{{ast.estimated_diameter.miles.estimated_diameter_max}}</td>
+                        </tr>
+                        <tr>
+                          <td>Miles min</td>
+                          <td>{{ast.estimated_diameter.miles.estimated_diameter_min}}</td>
+                        </tr>
+                        <tr>
+                          <td>Feet max</td>
+                          <td>{{ast.estimated_diameter.feet.estimated_diameter_max}}</td>
+                        </tr>
+                        <tr>
+                          <td>Feet min</td>
+                          <td>{{ast.estimated_diameter.feet.estimated_diameter_min}}</td>
+                        </tr>
+                        <tr>
+                          <td>Is sentry object</td>
+                          <td>{{ast.is_sentry_object}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div >
+                      <div *ngFor="let a of ast.close_approach_data">
+                        <table class="table table-sm" >
+                          <thead>
+                            <tr>
+                              <th scope="col"><h6>Close approach data</h6></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>Close approach date</td>
+                              <td>{{a.close_approach_date_full}}</td>
+                            </tr>
+                            <tr>
+                              <td>Epoch date close approach</td>
+                              <td>{{a.epoch_date_close_approach}}</td>
+                            </tr>
+                            <tr>
+                              <td>Orbiting body</td>
+                              <td>{{a.orbiting_body}}</td>
+                            </tr>
+                            <tr>
+                              <td>Relative velocity in kilometers/second</td>
+                              <td>{{a.relative_velocity.kilometers_per_second}}</td>
+                            </tr>
+                            <tr>
+                              <td>Relative velocity in kilometers/hour</td>
+                              <td>{{a.relative_velocity.kilometers_per_hour}}</td>
+                            </tr>
+                            <tr>
+                              <td>Relative velocity in miles/hour</td>
+                              <td>{{a.relative_velocity.miles_per_hour}}</td>
+                            </tr>
+                            <tr>
+                              <td>Miss distance in astronomical</td>
+                              <td>{{a.miss_distance.astronomical}}</td>
+                            </tr>
+                            <tr>
+                              <td>Miss distance in lunar</td>
+                              <td>{{a.miss_distance.lunar}}</td>
+                            </tr>
+                            <tr>
+                              <td>Miss distance in kilometers</td>
+                              <td>{{a.miss_distance.kilometers}}</td>
+                            </tr>
+                            <tr>
+                              <td>Miss distance in miles</td>
+                              <td>{{a.miss_distance.miles}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
                   </div>
                 </div>
+              </div>
+            <div>
+              <h4>Comments</h4>
+              <div *ngFor="let com of receivedData">
+              <div class="d-flex mb-2"  id="comment-listed">
+                <div class="form-outline me-3 justify-content-left" style="width: 43rem" id="comment-text">
+                  <h6 id="form1">{{com.author}}</h6>
+                  <p for="form1">{{com.commentText}}</p>
+                </div>
+                <button type="button" class="btn btn-primary" id="inside-btn" (click)="clickEditButton()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                </svg></button>
+                <button type="button" class="btn btn-danger" id="inside-btn" (click)="deleteComment(com._id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                </svg></button>
+              </div>
+              <div *ngIf="submitted" >
                 <form>
                   <div class="form-group">
                     <label for="formGroupExampleInput">Name</label>
-                    <input type="text" class="form-control" id="author" required [(ngModel)]="comment.author" name="author">
+                    <input type="text" class="form-control" id="authorEdit" 
+                    [(ngModel)]="author" name="author">
                   </div>
                   <div class="form-group">
                     <label for="formGroupExampleInput2">Comment</label>
-                    <input type="text" class="form-control" id="commentText" placeholder="Comment text" required [(ngModel)]="comment.commentText" name="commentText">
+                    <input type="text" class="form-control" id="commentTextEdit" 
+                    placeholder="Comment text" [(ngModel)]="text"
+                    name="commentText">
                   </div>
                   <br>
-                  <button class="btn btn-primary" type="submit" (click)="createComment()">Send</button>
+                  <button class="btn btn-primary" type="submit" (click)="updateComment(com._id)">Send</button>
+                  <button class="btn btn-primary" type="submit" (click)="cancelComment()">Cancel</button>
                 </form>
-
-                <div *ngIf="submitted" >
-                  <h4>Tutorial was submitted successfully!</h4>
-                </div>
               </div>
-              <!-- <table class="table table-borderless">
-                <tbody>
-                  <tr>
-                    <td>
-                      <div class="d-flex mb-2">
-                        <div class="flex-shrink-0">
-                          <img src="https://www.bootdey.com/image/280x280/87CEFA/000000" alt="" width="35" class="img-fluid">
-                        </div>
-                        <div class="flex-lg-grow-1 ms-3">
-                          <h6 class="small mb-0"><a href="#" class="text-reset">Wireless Headphones with Noise Cancellation Tru Bass Bluetooth HiFi</a></h6>
-                          <span class="small">Color: Black</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>1</td>
-                    <td class="text-end">$79.99</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="d-flex mb-2">
-                        <div class="flex-shrink-0">
-                          <img src="https://www.bootdey.com/image/280x280/FF69B4/000000" alt="" width="35" class="img-fluid">
-                        </div>
-                        <div class="flex-lg-grow-1 ms-3">
-                          <h6 class="small mb-0"><a href="#" class="text-reset">Smartwatch IP68 Waterproof GPS and Bluetooth Support</a></h6>
-                          <span class="small">Color: White</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>1</td>
-                    <td class="text-end">$79.99</td>
-                  </tr>
-                </tbody>
-
-              </table> -->
-            </div>
-            <div class="col-sm-5 col-md-6 col-12 pb-4">
-              <h3>Comments</h3>
-              <div class="comment mt-4 text-justify float-left" *ngFor="let com of receivedData">
-                  <h6> {{com.author}}</h6>
-                  <br>
-                  <p>{{com._id}}</p>
-                  <p>{{com.commentText}}</p>
-                  <button (click)="clickEditButton()">update</button>
-                  <button (click)="deleteComment(com._id)">delete</button>
-                  <div *ngIf="submitted" >
-                    <form>
-                      <div class="form-group">
-                        <label for="formGroupExampleInput">Name</label>
-                        <input type="text" class="form-control" id="authorEdit" 
-                        [(ngModel)]="author" name="author">
-                      </div>
-                      <div class="form-group">
-                        <label for="formGroupExampleInput2">Comment</label>
-                        <input type="text" class="form-control" id="commentTextEdit" 
-                        placeholder="Comment text" [(ngModel)]="text"
-                        name="commentText">
-                      </div>
-                      <br>
-                      <button class="btn btn-primary" type="submit" (click)="updateComment(com._id)">Send</button>
-                    </form>
-                  </div>
-              </div> 
-           
+              </div>
           </div>
           </div> 
-    
-         
+  
+          <div>
+            <form id="comment-group">
+              <h5>New comment</h5>
+              <div class="form-group">
+                <label for="formGroupExampleInput">Name</label>
+                <input type="text" class="form-control" id="author" required [(ngModel)]="comment.author" name="author">
+              </div>
+              <div class="form-group">
+                <label for="formGroupExampleInput2">Comment</label>
+                <input type="text" class="form-control" id="commentText" placeholder="Comment text" required [(ngModel)]="comment.commentText" name="commentText">
+              </div>
+              <br>
+              <button class="btn btn-primary" id="comment-btn" type="submit" (click)="createComment()">Send</button>
+              <button class="btn btn-danger" id="comment-btn" type="submit" (click)="cancelComment()">Cancel</button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
 </div>
