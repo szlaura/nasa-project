@@ -44,7 +44,6 @@ const commentsUpdateOne = (req, res) => {
             } else if (err) {
                 sendJSONresponse(res, 400, err);
               }
-        comment.author = req.body.author;
         comment.commentText = req.body.commentText;
         comment.save((err, comment) => {
           if (err) {
