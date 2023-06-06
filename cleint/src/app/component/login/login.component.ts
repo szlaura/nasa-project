@@ -30,34 +30,25 @@ export class LoginComponent implements OnInit{
   ngOnInit(): void {
     this.succeed = false;
     this.failed = false;
+    this.authService.setLoggedIn(false);
   }
 
-  onSubmit() {
-    console.log("email of login "+this.formdata.value.pwd);
+  onSubmit(){
     this.user.username = this.formdata.value.username || '';
     this.user.password = this.formdata.value.pwd || '';
-    console.log("PWD KIIRAS"+ this.user.password);
-    
-    this.authService.loginUser(this.user)
+
+    this.authService.login( this.user.username,this.user.password)
     .subscribe({
       next: (res) => {
-        if(res.status == 200){
-          this.succeed = true;
-          this.router.navigate(['/asteroids']);
-          console.log("KIRALY");
-        }
-          this.succeed = true;
-          this.router.navigate(['/asteroids']);
-      },
-      error: (e) => {
-        if(e.status == 401){
-          this.failed = true;
-          this.errorMsg = "Invalid user and/or password!"
-        }else{
-          this.failed = true;
-          this.errorMsg = "Something went wrong!"
-        }
-        console.error(e)}
-    });
+        this.succeed = true;
+        console.log(res)
+        localStorage.setItem('token',res.token);
+        this.router.navigate(['/asteroids']);
+        this.authService.setLoggedIn(true);
+        this.authService.setCurrentUser(this.user.username);
+    },error : (err)=>{
+      this.failed = true;
+      this.errorMsg='Wrong username or password!'
+    }})
   }
 }

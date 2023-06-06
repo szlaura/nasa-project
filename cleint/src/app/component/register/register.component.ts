@@ -33,32 +33,25 @@ export class RegisterComponent implements OnInit{
   ngOnInit(): void {
     this.succeed = false;
     this.failed = false;
-  }
+  } 
 
-  onSignUp(){
-    console.log("email of login "+this.formdata.value.password);
+  register(){
     this.newUser.username = this.formdata.value.username || '';
     this.newUser.password = this.formdata.value.password || '';
     this.newUser.email = this.formdata.value.email || '';
-    console.log("PWD KIIRAS"+ this.newUser.password);
-    
-    this.authService.signupUser(this.newUser)
-    .subscribe({
-      next: (res) => {
-        if(res.status == 200){
-          this.succeed = true;
-          this.router.navigate(['/login']);
-          console.log("KIRALY");
-        }
-          this.succeed = true;
-          this.router.navigate(['/login']);
-      },
-      error: (e) => {
-          this.failed = true;
-          this.errorMsg = "Something went wrong!"
-        
-        console.error(e)}
-    });
+
+    this.authService.register(this.newUser.username,this.newUser.password, this.newUser.email)
+    .subscribe({next:() => {
+        this.succeed = true;
+        this.router.navigate(['/login']);
+        console.log("KIRALY");
+    },error : (err) =>{
+      this.failed = true;
+      if(err.error.code == 11000)
+        this.errorMsg= 'User already exists! Try something else.'
+      else 
+        this.errorMsg= 'Something went wrong!'
+    }})
   }
 
 }

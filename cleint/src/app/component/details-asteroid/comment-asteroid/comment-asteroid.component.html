@@ -1,4 +1,4 @@
-<h4>Comments</h4>
+<h4 *ngIf="currentState">Comments</h4>
 
 <div *ngFor="let com of receivedData">
     <div class="d-flex mb-2"  id="comment-listed">
@@ -38,7 +38,7 @@
     </ng-template>
 </div>
 
-<div>
+<div *ngIf="currentState">
     <form id="comment-group">
         <h5>New comment</h5>
         <div class="form-group">

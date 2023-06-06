@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/app/model/comment.model';
 import { ModalDismissReasons, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -14,10 +15,22 @@ export class CommentAsteroidComponent implements OnInit{
    /*asteroid data*/
    @Input() currentAsteroidId: any;
 
-  constructor(private commentService: CommentService, private modalService: NgbModal ) {}
+   currentState= false;
+   currentUser = '';
+
+  constructor(private commentService: CommentService, private authService: AuthService,private modalService: NgbModal ) {}
 
   ngOnInit(): void{
     this.getCommentsByAsteroid(this.currentAsteroidId);
+
+    this.authService.currentState.subscribe(data => {
+      this.currentState = data;
+    })
+
+    this.authService.currentUser.subscribe(data => {
+      this.currentUser = data;
+    })
+    console.log("currentstate:" + this.currentState);
   }
 
   comment: Comment = {
@@ -128,4 +141,5 @@ export class CommentAsteroidComponent implements OnInit{
 			return `with: ${reason}`;
 		}
 	}
+
 }

@@ -4,23 +4,22 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var allowCrossDomain = function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', "*");
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  // res.header('Access-Control-Allow-Origin', "*");
+  // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  // res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,HEAD,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization');
   next();
 };
 require('./app_api/models/db');
 
-
-const indexRouter = require('./app_server/routes/index');
-//const usersRouter = require('./app_server/routes/users');
 const apiRouter = require('./app_api/routes/index')
 
 const app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname,'app_server', 'views'));
-app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(allowCrossDomain);
 app.use(logger('dev'));
@@ -29,8 +28,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-//app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler

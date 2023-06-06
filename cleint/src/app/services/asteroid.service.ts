@@ -19,15 +19,12 @@ export class AsteroidService {
 
   constructor(private http: HttpClient) {
     this.nasaApiURL = `${nasa_api(this.setDailyAsteroidDate())}`;
-    this.nodeApiURL = `${node_api_ast}`;
-    console.log("ROOTURL "+this.nasaApiURL);
-    console.log("NODE  "+this.nodeApiURL);
+
    }
 
   yesterdayDate: any;
   stringYesterday!: string;
   nasaApiURL!: string;
-  nodeApiURL!:string
 
   getAsteroids(): Observable<Asteroid> {
     return this.http.get<Asteroid>(this.nasaApiURL);

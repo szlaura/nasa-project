@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Asteroid } from 'src/app/model/asteroid.model';
 import { AsteroidService } from 'src/app/services/asteroid.service';
 import {formatDate} from '@angular/common';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-add-asteroid',
@@ -10,7 +11,7 @@ import {formatDate} from '@angular/common';
 })
 export class AddAsteroidComponent{
 
-  constructor(private asteroidService: AsteroidService) { }
+  constructor(private asteroidService: AsteroidService, private authService: AuthService) { }
 
   ngOnInit(): void {
    this.getAsterosids();
@@ -27,6 +28,7 @@ export class AddAsteroidComponent{
         data => {
           this.dataAst = data;
           //this.element_count = data.element_count
+          console.log("ITT FUT LE AZ ADD AST GETAST");
           console.log("element: "+this.dataAst.element_count)
           console.log(data);
         },

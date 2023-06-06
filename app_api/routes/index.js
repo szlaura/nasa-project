@@ -11,14 +11,14 @@ var middleware = require('../controllers/middleware');
 router.get('/asteroids', ctrlAsteroids.asteroidsReadAll);
 router.post('/asteroids', ctrlAsteroids.asteroidsCreate);
 
-router.get('/asteroids/:asteroidid', ctrlAsteroids.asteroidsReadOneById);
+router.get('/asteroids/:asteroidid', middleware.isAuthenticate, ctrlAsteroids.asteroidsReadOneById);
 
 //Comments
-router.get('/comments/:asteroidid',middleware.ensureAuthenticated ,ctrlComments.commentReadAll);
-router.post('/comments', middleware.ensureAuthenticated, ctrlComments.commentsCreate);
+router.get('/comments/:asteroidid',middleware.isAuthenticate ,ctrlComments.commentReadAll);
+router.post('/comments', middleware.isAuthenticate, ctrlComments.commentsCreate);
 
-router.put('/comments/:commentid', ctrlComments.commentsUpdateOne);
-router.delete('/comments/:commentid', ctrlComments.commentsDeleteOne);
+router.put('/comments/:commentid',middleware.isAuthenticate, ctrlComments.commentsUpdateOne);
+router.delete('/comments/:commentid', middleware.isAuthenticate, ctrlComments.commentsDeleteOne);
 
 //Users
 router.post('/auth/signup', ctrlUs.signup); 

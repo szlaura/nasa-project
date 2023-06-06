@@ -1,0 +1,6 @@
+
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a href="#" class="navbar-brand">Daily Asteroids</a>
+    <a *ngIf="currentState" id= "logout" class="navbar-brand" [routerLink]="['/login']" (click)="logout()">Log out</a>
+</nav>
+

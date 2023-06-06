@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'asteroids', component: ListAsteroidsComponent },
   //{ path: 'asteroids/:id', component: A },
-  { path: 'details', component: DetailsAsteroidComponent },
+  { path: 'details', component: DetailsAsteroidComponent},
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent }
 ];

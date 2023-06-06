@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Asteroid } from 'src/app/model/asteroid.model';
 import { AsteroidService } from 'src/app/services/asteroid.service';
-import { CommentService } from 'src/app/services/comment.service';
-import { Comment } from 'src/app/model/comment.model';
-import { Router } from '@angular/router';
+import { Emitter } from 'src/app/emitters/authEmitter';
 
 @Component({
   selector: 'app-details-asteroid',
@@ -42,10 +40,13 @@ export class DetailsAsteroidComponent implements OnInit{
       .subscribe({
         next: (data) => {
           this.asteroids = data;
-         
+          Emitter.authEmitter.emit(true)
           console.log("mai asztaroidak "+this.asteroids.element_count);
         },
-        error: (e) => console.error(e)
+        error: (e) => {
+          Emitter.authEmitter.emit(false)
+          console.error(e);
+        }
       });
   }
 

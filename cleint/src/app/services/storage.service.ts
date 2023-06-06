@@ -13,6 +13,24 @@ export class StorageService {
     window.sessionStorage.clear();
   }
 
+  setItem(key: string, value: any): void {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  getItem(key: string): any {
+    try {
+      const item = localStorage.getItem(key)!;
+
+      return JSON.parse(item);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  removeItem(key: string): any {
+    localStorage.removeItem(key);
+  }
+
   public saveUser(user: any): void {
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));

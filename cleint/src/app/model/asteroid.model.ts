@@ -1,8 +1,4 @@
 export interface Asteroid {
-    // comments?:[{
-    //     author: string,
-    //     commentText: string
-    // }],
     _id?: string,
     links: {
         next : string,
