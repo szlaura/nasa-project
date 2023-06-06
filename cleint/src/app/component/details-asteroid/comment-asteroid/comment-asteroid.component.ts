@@ -18,7 +18,6 @@ export class CommentAsteroidComponent implements OnInit{
 
   ngOnInit(): void{
     this.getCommentsByAsteroid(this.currentAsteroidId);
-
   }
 
   comment: Comment = {

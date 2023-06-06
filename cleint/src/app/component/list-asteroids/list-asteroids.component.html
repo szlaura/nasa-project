@@ -5,10 +5,11 @@
       #itemElem [routerLink]="['/details']">
         <h6>Name</h6>
         <p>{{ast.name}}</p>
-        <h6>Magnitude</h6>
+        <h6>Asteroid magnitude </h6>
         <p>{{ast.absolute_magnitude_h}}</p>
         <div *ngFor="let a of ast.close_approach_data">
-        <p>{{a.close_approach_date}}</p>
+          <h6>Time of Eartch approach</h6>
+          <p>{{a.close_approach_date_full}}</p>
        
       </div>
   

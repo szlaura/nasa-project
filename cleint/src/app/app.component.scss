@@ -1,0 +1,15 @@
+#bg-img{
+    background: url(/./assets/background.jpg) no-repeat center center fixed; 
+    min-height: 100%;
+    padding-bottom: 5rem;
+    width: 100%;
+    height: auto;
+      
+  }
+  
+  @media screen and (max-width: 1024px) {
+    img.bg {
+      left: 50%;
+      margin-left: -512px;   /* 50% */
+    }
+  }

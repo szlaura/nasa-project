@@ -1,0 +1,53 @@
+
+<div class="card" id="card">
+  <div class="card-body">
+    <form [formGroup]="formdata" (ngSubmit)="onSubmit()" id="form">
+
+      <h3>Log In</h3>
+      <br>
+      <!-- Username input -->
+      <div class="form-outline mb-4">
+        <input id="form2Example3" class="form-control" formControlName="username"/>
+        <label class="form-label" for="form2Example1" >Username</label>
+      </div>
+
+    
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <input type="password" id="form2Example2" class="form-control" formControlName = "pwd" />
+        <label class="form-label" for="form2Example2">Password</label>
+      </div>
+    
+      <!-- Submit button -->
+      <div id="signin-btn">
+        <button type="button" class="btn btn-primary" (click)="onSubmit()" >Sign in</button>
+      </div>
+
+      <br>
+
+      <div class="alert alert-success" role="alert" *ngIf='succeed'>
+        Login was successful!
+      </div>
+
+      <div class="alert alert-danger" role="alert" *ngIf='failed'>
+        {{errorMsg}}
+      </div>
+
+      <!-- Register button -->
+      <div class="text-center">
+        <p>Not registered? 
+          <a href="#!" [routerLink]="['/register']">Register</a>
+        </p>
+      </div>
+
+       <!-- Without login button -->
+      <div class="text-center">
+        <app-add-asteroid></app-add-asteroid>
+      </div>
+    </form>
+    <div id="filler">
+
+    </div>
+  </div>
+</div>
+

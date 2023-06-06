@@ -39,3 +39,4 @@ process.on('SIGINT', () => {
 // BRING IN YOUR SCHEMAS & MODELS
 require('./asteroids');
 require('./comments');
+require('./users');

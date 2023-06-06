@@ -13,7 +13,6 @@ export class AddAsteroidComponent{
   constructor(private asteroidService: AsteroidService) { }
 
   ngOnInit(): void {
-    
    this.getAsterosids();
   }
 

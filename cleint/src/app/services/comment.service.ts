@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { node_api_com } from 'src/environments/environment';
 
 
 const apnkiurl = 'http://localhost:3000/api/comments';
@@ -10,7 +11,10 @@ const apnkiurl = 'http://localhost:3000/api/comments';
 })
 export class CommentService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.nodeApiUrl = `${node_api_com}`;
+  }
+  nodeApiUrl!: any;
 
   getComments(asteroidid: string): Observable<Comment[]> {
     return this.http.get<Comment[]>(`${apnkiurl}/${asteroidid}`);

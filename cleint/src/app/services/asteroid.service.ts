@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Asteroid } from '../model/asteroid.model';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { nasa_api} from 'src/environments/environment'
+import { nasa_api, node_api_ast} from 'src/environments/environment'
 
 const apnkiurl = 'http://localhost:3000/api/asteroids';
 
@@ -11,31 +11,26 @@ const apnkiurl = 'http://localhost:3000/api/asteroids';
 })
 export class AsteroidService {
 
-  private dataAsteroid = new BehaviorSubject<string>("MEGINT")
+  private dataAsteroid = new BehaviorSubject<string>("")
   currentDataAsteroid = this.dataAsteroid.asObservable();
 
-  private dataDailyAsteroids = new BehaviorSubject<string>("LOL")
+  private dataDailyAsteroids = new BehaviorSubject<string>("")
   currentDataDailyAsteroids = this.dataDailyAsteroids.asObservable();
 
   constructor(private http: HttpClient) {
-    /*TODO kitenni fuggvenybe*/
-    const todayDate = new Date();
-    this.yesterdayDate = new Date();
-    const todaysDayOfMonth = todayDate.getDate();
-    this.yesterdayDate.setDate(todaysDayOfMonth - 1);
-    this.stringYesterday = this.yesterdayDate.toISOString().split('T')[0];
-    this.rootURL = `${nasa_api(this.stringYesterday, this.stringYesterday)}`;
-    console.log(this.rootURL);
+    this.nasaApiURL = `${nasa_api(this.setDailyAsteroidDate())}`;
+    this.nodeApiURL = `${node_api_ast}`;
+    console.log("ROOTURL "+this.nasaApiURL);
+    console.log("NODE  "+this.nodeApiURL);
    }
-
 
   yesterdayDate: any;
   stringYesterday!: string;
-  rootURL!: string;
-
+  nasaApiURL!: string;
+  nodeApiURL!:string
 
   getAsteroids(): Observable<Asteroid> {
-    return this.http.get<Asteroid>(this.rootURL);
+    return this.http.get<Asteroid>(this.nasaApiURL);
   }
 
   listAsteroids(): Observable<Asteroid[]>{
@@ -53,7 +48,6 @@ export class AsteroidService {
     return this.http.get<any>(`${apnkiurl}/${id}`);
   }
 
-  
   setDataAsteroidId(value: any) {
     console.log("value" +value);
     this.dataAsteroid.next(value);
@@ -63,4 +57,12 @@ export class AsteroidService {
     this.dataDailyAsteroids.next(value);
   }
 
+  setDailyAsteroidDate(): string{
+    const todayDate = new Date();
+    this.yesterdayDate = new Date();
+    const todaysDayOfMonth = todayDate.getDate();
+
+    this.yesterdayDate.setDate(todaysDayOfMonth - 1);
+    return this.stringYesterday = this.yesterdayDate.toISOString().split('T')[0];
+  }
 }

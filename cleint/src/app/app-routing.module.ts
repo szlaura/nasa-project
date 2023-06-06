@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddAsteroidComponent } from './component/add-asteroid/add-asteroid.component';
 import { ListAsteroidsComponent } from './component/list-asteroids/list-asteroids.component';
 import { DetailsAsteroidComponent } from './component/details-asteroid/details-asteroid.component';
+import { RegisterComponent } from './component/register/register.component';
+import { LoginComponent } from './component/login/login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'welcome', pathMatch: 'full' },
-  { path: 'welcome', component: AddAsteroidComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'asteroids', component: ListAsteroidsComponent },
   //{ path: 'asteroids/:id', component: A },
-  { path: 'details', component: DetailsAsteroidComponent }
+  { path: 'details', component: DetailsAsteroidComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent }
 ];
 
 @NgModule({
