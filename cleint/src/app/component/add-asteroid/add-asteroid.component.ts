@@ -27,7 +27,6 @@ export class AddAsteroidComponent{
       .subscribe(
         data => {
           this.dataAst = data;
-          //this.element_count = data.element_count
           console.log("ITT FUT LE AZ ADD AST GETAST");
           console.log("element: "+this.dataAst.element_count)
           console.log(data);
@@ -42,9 +41,10 @@ export class AddAsteroidComponent{
       .subscribe({
         next: (res) => {
           console.log(res);
-          //this.submitted = true;
         },
-        error: (e) => console.error(e)
+        error: (e) => {
+          console.error(e)
+        }
       });
   }
 

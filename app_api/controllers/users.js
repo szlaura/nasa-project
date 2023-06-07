@@ -3,6 +3,7 @@ const Comments = mongoose.model('Users');
 var service = require('./service');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+var config = require('../config/config');
 
 
 const signup = (req, res) =>{ 
@@ -32,34 +33,19 @@ const login = (req, res) =>{
       else{
           if(!user){
               console.log('invalid user')
-              return res.status(401).send("user does not exist!")
+              return res.status(401).send("User does not exist!")
           }
           if(bcrypt.compareSync(req.body.password,user.password)){
               console.log('user logged in!',user)
-              let token = jwt.sign({username:user.username},'SECRET',{expiresIn:300})
+              let token = jwt.sign({username:user.username},config.TOKEN_SECRET,{expiresIn:300})
               res.status(201).json({loggedIn:true,token})
           }
           else{
               console.log('user login failed!',user)
-              res.status(400).json('Unauthorized: Wrong Password!!')
+              res.status(400).json('Unauthorized: Wrong password or username!')
           }  
       }
-  })
-};
-  //   .count({
-  //     username: req.body.username, 
-  //     password: req.body.password}) 
-  //   .exec(function(err, user) {
-  //     if (!user) {
-  //       return res.status(401).send({"message": "Invalid user and/or password"}); 
-  //     } else if (err) {
-  //       return res.status(404).send(err); 
-  //     }
-  //     return res.status(200).send({token: service.createToken(req.body.username)}); 
-  //   });
-  // } else {
-  //   return res.status(401).send({"message": "Invalid user and/or password"}); 
-  // }
+  })};
 };
 
 

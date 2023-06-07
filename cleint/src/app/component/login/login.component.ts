@@ -48,7 +48,13 @@ export class LoginComponent implements OnInit{
         this.authService.setCurrentUser(this.user.username);
     },error : (err)=>{
       this.failed = true;
-      this.errorMsg='Wrong username or password!'
+      if(err.status == 401){
+        this.errorMsg='User does not exist!';
+        }
+        else{
+          this.errorMsg='Wrong password or username!';
+        }
+        console.error(err);
     }})
   }
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Asteroid } from '../model/asteroid.model';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { nasa_api, node_api_ast} from 'src/environments/environment'
+import { BehaviorSubject, Observable } from 'rxjs';
+import { nasa_api} from 'src/environments/environment'
 
 const apnkiurl = 'http://localhost:3000/api/asteroids';
 

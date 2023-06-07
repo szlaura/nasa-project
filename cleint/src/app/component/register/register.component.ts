@@ -14,7 +14,6 @@ export class RegisterComponent implements OnInit{
   formdata = this.formBuilder.group({
     username: '',
     password: '',
-    // password2: '',
     email: ''
   });
 
@@ -47,11 +46,13 @@ export class RegisterComponent implements OnInit{
         console.log("KIRALY");
     },error : (err) =>{
       this.failed = true;
-      if(err.error.code == 11000)
-        this.errorMsg= 'User already exists! Try something else.'
-      else 
-        this.errorMsg= 'Something went wrong!'
-    }})
+      if(err.error.code == 11000){
+        this.errorMsg= 'User already exists! Try something else.';
+      } 
+      else {
+        this.errorMsg= 'Something went wrong!';
+      }
+      console.error(err);
+    }});
   }
-
 }

@@ -34,7 +34,7 @@ import { NavbarComponent } from './component/navbar/navbar.component';
     HttpClientModule
   ],
   providers: [
-    {provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor, multi: true, }
+    {provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

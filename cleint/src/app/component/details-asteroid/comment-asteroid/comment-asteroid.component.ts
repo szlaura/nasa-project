@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/app/model/comment.model';
-import { ModalDismissReasons, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
+import { Toast } from 'bootstrap';
 
 
 @Component({
@@ -16,7 +17,12 @@ export class CommentAsteroidComponent implements OnInit{
    @Input() currentAsteroidId: any;
 
    currentState= false;
-   currentUser = '';
+
+   @ViewChild('myToast',{static:true}) 
+   toastEl!: ElementRef<HTMLDivElement>;
+
+   toast: Toast | null = null;
+   toastMessage='';
 
   constructor(private commentService: CommentService, private authService: AuthService,private modalService: NgbModal ) {}
 
@@ -25,12 +31,9 @@ export class CommentAsteroidComponent implements OnInit{
 
     this.authService.currentState.subscribe(data => {
       this.currentState = data;
-    })
+    });
+    this.toast = new Toast(this.toastEl.nativeElement,{});
 
-    this.authService.currentUser.subscribe(data => {
-      this.currentUser = data;
-    })
-    console.log("currentstate:" + this.currentState);
   }
 
   comment: Comment = {
@@ -39,6 +42,7 @@ export class CommentAsteroidComponent implements OnInit{
     asteroidId: ''
   };
   submitted = false;
+
   receivedData: any;
 
   /*comment*/
@@ -58,10 +62,11 @@ export class CommentAsteroidComponent implements OnInit{
     this.commentService.createComment(data)
       .subscribe({
         next: (res) => {
-          console.log("most mentem a commentet"+res);
+          console.log(res);
         },
         error: (e) => console.error(e)
       });
+
       this.comment = {
         author:'', 
         commentText: '',
@@ -91,11 +96,14 @@ export class CommentAsteroidComponent implements OnInit{
     };
     console.log("AZ ADATOK UPDATEHEZ"+data.commentText);
     this.commentService.updateComment(id, data).subscribe({
-      next: (res) => {
-        console.log(res);
+      next: (res) => {   
         this.getCommentsByAsteroid(this.currentAsteroidId);
+        this.openToast('Update success!');
       },
-      error: (e) => console.error(e)
+      error: (e) => {
+        this.openToast('Update fail!');
+        console.error(e);
+      }
     });
     
     
@@ -106,8 +114,12 @@ export class CommentAsteroidComponent implements OnInit{
       next: () => {
         console.log("torolve lett");
         this.getCommentsByAsteroid(this.currentAsteroidId);
+        this.openToast('Delete success!');
       },
-      error: (e) => console.error(e)
+      error: (e) => {
+        this.openToast('Delete fail!');
+        console.error(e);
+      }
     });
     
   }
@@ -119,6 +131,11 @@ export class CommentAsteroidComponent implements OnInit{
       asteroidId: ''
     }
     this.submitted = false;
+  }
+
+  openToast(msg: string){
+    this.toastMessage = msg;
+    this.toast!.show();
   }
 
   open(content: any) {
