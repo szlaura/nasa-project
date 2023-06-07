@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AsteroidService } from './services/asteroid.service';
 import { Asteroid } from './model/asteroid.model';
 import { Title } from '@angular/platform-browser';
 
