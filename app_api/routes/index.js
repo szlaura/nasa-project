@@ -5,8 +5,6 @@ const ctrlAsteroids = require('../controllers/asteroids');
 const ctrlUs = require('../controllers/users');
 var middleware = require('../controllers/middleware'); 
 
-
-
 // Asteroids 
 router.get('/asteroids', ctrlAsteroids.asteroidsReadAll);
 router.post('/asteroids', ctrlAsteroids.asteroidsCreate);
@@ -25,5 +23,3 @@ router.post('/auth/signup', ctrlUs.signup);
 router.post('/auth/login', ctrlUs.login);
 
 module.exports = router;
-
-

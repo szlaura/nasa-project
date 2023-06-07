@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 const Comments = mongoose.model('Users');
-var service = require('./service');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 var config = require('../config/config');
 
-
+/* POST api/auth/signup */
 const signup = (req, res) =>{ 
   Comments
   .create({
@@ -22,6 +21,7 @@ const signup = (req, res) =>{
   });
 };
 
+/* POST api/auth/login */
 const login = (req, res) =>{ 
   if (req.body.username && req.body.password) {
     Comments
