@@ -11,10 +11,6 @@ import { Emitter } from 'src/app/emitters/authEmitter';
 })
 export class DetailsAsteroidComponent implements OnInit{
 
-  /*asteroid data*/
-  currentDailyAsteroidsId: any;
-  currentAstId: any;
-
   constructor(private asteroidService: AsteroidService) {}
 
   ngOnInit(): void {
@@ -32,7 +28,11 @@ export class DetailsAsteroidComponent implements OnInit{
     this.listDailyAsteroids(this.currentDailyAsteroidsId);
   }
 
-  striingmertidk = this.asteroidService.stringYesterday;
+   /*asteroid data*/
+   currentDailyAsteroidsId: any;
+   currentAstId: any;
+
+  yesterdayDateString = this.asteroidService.stringYesterday;
   asteroids!: Asteroid;
 
   listDailyAsteroids(id: any): void {
@@ -49,13 +49,5 @@ export class DetailsAsteroidComponent implements OnInit{
         }
       });
   }
-
-
-  // onOpenAlert() {
-  //   window.alert('The message is ' + this.dataAsteroid);
-  // }
-
-
- 
 
 }

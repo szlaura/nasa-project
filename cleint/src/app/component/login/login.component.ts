@@ -11,6 +11,14 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit{
 
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private router: Router) { }
+
+  ngOnInit(): void {
+    this.succeed = false;
+    this.failed = false;
+    this.authService.setLoggedIn(false);
+  }
+
   formdata = this.formBuilder.group({
     username: '',
     pwd: ''
@@ -25,14 +33,6 @@ export class LoginComponent implements OnInit{
   failed: any;
   errorMsg= '';
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder, private router: Router) { }
-
-  ngOnInit(): void {
-    this.succeed = false;
-    this.failed = false;
-    this.authService.setLoggedIn(false);
-  }
-
   onSubmit(){
     this.user.username = this.formdata.value.username || '';
     this.user.password = this.formdata.value.pwd || '';
@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit{
         localStorage.setItem('token',res.token);
         this.router.navigate(['/asteroids']);
         this.authService.setLoggedIn(true);
-        this.authService.setCurrentUser(this.user.username);
     },error : (err)=>{
       this.failed = true;
       if(err.status == 401){

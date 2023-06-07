@@ -9,9 +9,6 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class NavbarComponent implements OnInit {
   
-  isLoggedIn = false ;
-  currentState: any;
-
   constructor(private authService: AuthService) {}
   
   ngOnInit(): void {
@@ -25,6 +22,10 @@ export class NavbarComponent implements OnInit {
     })
 
   }
+
+  isLoggedIn = false ;
+  currentState: any;
+
   logout(){
     localStorage.removeItem('token')
     Emitter.authEmitter.emit(false)

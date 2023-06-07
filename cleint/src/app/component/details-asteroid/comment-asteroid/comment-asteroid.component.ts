@@ -13,17 +13,6 @@ import { Toast } from 'bootstrap';
 })
 export class CommentAsteroidComponent implements OnInit{
 
-   /*asteroid data*/
-   @Input() currentAsteroidId: any;
-
-   currentState= false;
-
-   @ViewChild('myToast',{static:true}) 
-   toastEl!: ElementRef<HTMLDivElement>;
-
-   toast: Toast | null = null;
-   toastMessage='';
-
   constructor(private commentService: CommentService, private authService: AuthService,private modalService: NgbModal ) {}
 
   ngOnInit(): void{
@@ -33,8 +22,19 @@ export class CommentAsteroidComponent implements OnInit{
       this.currentState = data;
     });
     this.toast = new Toast(this.toastEl.nativeElement,{});
-
   }
+
+   /*asteroid data*/
+   @Input() currentAsteroidId: any;
+
+   /*logged in or not*/
+   currentState= false;
+
+   /*toast message*/
+   @ViewChild('myToast',{static:true}) 
+   toastEl!: ElementRef<HTMLDivElement>;
+   toast: Toast | null = null;
+   toastMessage='';
 
   comment: Comment = {
     author:'', 
@@ -62,9 +62,12 @@ export class CommentAsteroidComponent implements OnInit{
     this.commentService.createComment(data)
       .subscribe({
         next: (res) => {
+          this.openToast('Create comment success!');
           console.log(res);
         },
-        error: (e) => console.error(e)
+        error: (e) => {
+          this.openToast('Create comment fail!');
+          console.error(e);}
       });
 
       this.comment = {

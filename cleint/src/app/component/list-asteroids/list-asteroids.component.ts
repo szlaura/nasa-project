@@ -15,10 +15,8 @@ export class ListAsteroidsComponent implements OnInit{
     this.listDailyAsteroids();
   }
 
-  striingmertidk =this.asteroidService.stringYesterday;
+  yesterdayDateString =this.asteroidService.stringYesterday;
   asteroids!: Asteroid;
-  Object!: Asteroid;
-  public asteroidID!: string;
   dataAsteroid: any;
   dataDailyAsteroids: any;
 

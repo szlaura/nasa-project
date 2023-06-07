@@ -4,7 +4,7 @@ import { Asteroid } from '../model/asteroid.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { nasa_api} from 'src/environments/environment'
 
-const apnkiurl = 'http://localhost:3000/api/asteroids';
+const apiUrl = 'http://localhost:3000/api/asteroids';
 
 @Injectable({
   providedIn: 'root'
@@ -31,18 +31,18 @@ export class AsteroidService {
   }
 
   listAsteroids(): Observable<Asteroid[]>{
-    console.log("SZERVER INFO" + apnkiurl)
-    return this.http.get<Asteroid[]>(apnkiurl);
+    console.log("SZERVER INFO" + apiUrl)
+    return this.http.get<Asteroid[]>(apiUrl);
   }
 
   createAsteroid(data: Asteroid): Observable<Asteroid> {
     console.log("meg lett hivva");
     console.log(data);
-    return this.http.post<Asteroid>(apnkiurl, data)
+    return this.http.post<Asteroid>(apiUrl, data)
   }
 
   getDailyAsteroidsById(id: any): Observable<any> {
-    return this.http.get<any>(`${apnkiurl}/${id}`);
+    return this.http.get<any>(`${apiUrl}/${id}`);
   }
 
   setDataAsteroidId(value: any) {

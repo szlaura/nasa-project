@@ -1,5 +1,5 @@
 
-    <div class="card" *ngFor="let ast of asteroids.near_earth_objects[striingmertidk]">
+    <div class="card" *ngFor="let ast of asteroids.near_earth_objects[yesterdayDateString]">
   
       <div class="card-body"  [attr.astid]="ast.id" (click)="clickItem(itemElem)"
       #itemElem [routerLink]="['/details']">

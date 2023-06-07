@@ -11,6 +11,13 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegisterComponent implements OnInit{
 
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private router: Router) { }
+  
+  ngOnInit(): void {
+    this.succeed = false;
+    this.failed = false;
+  } 
+
   formdata = this.formBuilder.group({
     username: '',
     password: '',
@@ -26,13 +33,6 @@ export class RegisterComponent implements OnInit{
   succeed: any;
   failed: any;
   errorMsg= '';
-
-  constructor(private authService: AuthService, private formBuilder: FormBuilder, private router: Router) { }
-  
-  ngOnInit(): void {
-    this.succeed = false;
-    this.failed = false;
-  } 
 
   register(){
     this.newUser.username = this.formdata.value.username || '';
