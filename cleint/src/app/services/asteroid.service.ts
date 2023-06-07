@@ -31,13 +31,10 @@ export class AsteroidService {
   }
 
   listAsteroids(): Observable<Asteroid[]>{
-    console.log("SZERVER INFO" + apiUrl)
     return this.http.get<Asteroid[]>(apiUrl);
   }
 
   createAsteroid(data: Asteroid): Observable<Asteroid> {
-    console.log("meg lett hivva");
-    console.log(data);
     return this.http.post<Asteroid>(apiUrl, data)
   }
 
@@ -46,7 +43,6 @@ export class AsteroidService {
   }
 
   setDataAsteroidId(value: any) {
-    console.log("value" +value);
     this.dataAsteroid.next(value);
   }
 

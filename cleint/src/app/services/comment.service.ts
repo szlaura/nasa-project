@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { node_api_com } from 'src/environments/environment';
 
 
 const apiUrl = 'http://localhost:3000/api/comments';
@@ -19,8 +18,6 @@ export class CommentService {
   }
 
   createComment(data: any): Observable<Comment> {
-    console.log("meg lett hivva");
-    console.log(data);
     return this.http.post<Comment>(apiUrl, data)
   }
 

@@ -97,7 +97,6 @@ export class CommentAsteroidComponent implements OnInit{
     const data = {
       commentText: this.text
     };
-    console.log("AZ ADATOK UPDATEHEZ"+data.commentText);
     this.commentService.updateComment(id, data).subscribe({
       next: (res) => {   
         this.getCommentsByAsteroid(this.currentAsteroidId);
@@ -115,7 +114,6 @@ export class CommentAsteroidComponent implements OnInit{
   deleteComment(id: string){
     this.commentService.deleteComment(id).subscribe({ 
       next: () => {
-        console.log("torolve lett");
         this.getCommentsByAsteroid(this.currentAsteroidId);
         this.openToast('Delete success!');
       },

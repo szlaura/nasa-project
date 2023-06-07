@@ -16,13 +16,10 @@ export class DetailsAsteroidComponent implements OnInit{
   ngOnInit(): void {
     this.asteroidService.currentDataDailyAsteroids.subscribe(data => {
       this.currentDailyAsteroidsId = data;
-      console.log("currentastid DAILY"+ this.currentDailyAsteroidsId);
     })
 
     this.asteroidService.currentDataAsteroid.subscribe(data => {
-      
      this.currentAstId = data;
-     console.log("currentastid"+ this.currentAstId);
     })
 
     this.listDailyAsteroids(this.currentDailyAsteroidsId);
@@ -41,7 +38,6 @@ export class DetailsAsteroidComponent implements OnInit{
         next: (data) => {
           this.asteroids = data;
           Emitter.authEmitter.emit(true)
-          console.log("mai asztaroidak "+this.asteroids.element_count);
         },
         error: (e) => {
           Emitter.authEmitter.emit(false)

@@ -41,10 +41,10 @@ export class LoginComponent implements OnInit{
     .subscribe({
       next: (res) => {
         this.succeed = true;
-        console.log(res)
         localStorage.setItem('token',res.token);
         this.router.navigate(['/asteroids']);
         this.authService.setLoggedIn(true);
+        console.log(res)
     },error : (err)=>{
       this.failed = true;
       if(err.status == 401){

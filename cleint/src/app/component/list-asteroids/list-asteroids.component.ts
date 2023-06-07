@@ -26,13 +26,7 @@ export class ListAsteroidsComponent implements OnInit{
         next: (data) => {
           this.asteroids= data.pop()!;
           const keys = Object.keys(this.asteroids.near_earth_objects);
-          //this.res.element_count = this.asteroids?.element_count;
-          console.log("ITT FUT LE A LISTAZAS");
-          console.log(this.asteroids);
-          console.log(keys);
-
           this.dataDailyAsteroids = this.asteroids._id;
-          console.log("dailyasteroids" + this.dataDailyAsteroids);
           this.asteroidService.setDataDailyAsteroidsId(this.dataDailyAsteroids);
         },
         error: (e) => console.error(e)

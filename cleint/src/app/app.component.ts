@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AsteroidService } from './services/asteroid.service';
 import { Asteroid } from './model/asteroid.model';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -13,7 +14,9 @@ export class AppComponent implements OnInit{
   dataAst!: Asteroid;
   element_count!: number;
   
-  constructor() { }
+  constructor(private titleService: Title) { 
+    this.titleService.setTitle("Daily Ateroids");
+  }
 
   ngOnInit(){
   

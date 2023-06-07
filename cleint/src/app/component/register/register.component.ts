@@ -43,7 +43,6 @@ export class RegisterComponent implements OnInit{
     .subscribe({next:() => {
         this.succeed = true;
         this.router.navigate(['/login']);
-        console.log("KIRALY");
     },error : (err) =>{
       this.failed = true;
       if(err.error.code == 11000){
